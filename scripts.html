@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Virtude • Sorteio de Times</title>
+<link rel="icon" type="x-icon" href="favicon-32x32.png">
+<style>
+  /* Fonte e cores principais */
+  body {
+    background-color: #0a0f1c;
+    color: #00ffff;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Navbar */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0a0f1c;
+    padding: 10px 20px;
+    border-bottom: 2px solid #00ffff;
+    box-shadow: 0 0 20px #00ffff;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .logo img {
+    height: 50px;
+    cursor: pointer;
+    filter: drop-shadow(0 0 10px #00ffff);
+  }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+  }
+
+  .nav-links li a {
+    color: #00ffff;
+    text-decoration: none;
+    font-size: 1.2em;
+    padding: 5px 10px;
+    border-radius: 8px;
+    transition: 0.3s;
+    text-shadow: 0 0 5px #00ffff;
+  }
+
+  .nav-links li a:hover {
+    background-color: #00ffff;
+    color: #0a0f1c;
+    box-shadow: 0 0 20px #00ffff;
+  }
+
+  /* Container principal */
+  .container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 15px #00ffff;
+  }
+
+  input, textarea, button {
+    background-color: #0f1a2b;
+    border: 2px solid #00ffff;
+    border-radius: 10px;
+    color: #00ffff;
+    font-size: 1.2em;
+    margin: 10px 0;
+    padding: 10px;
+    outline: none;
+    text-align: center;
+  }
+
+  button {
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 0 20px #00ffff;
+  }
+
+  button:hover {
+    background-color: #00ffff;
+    color: #0a0f1c;
+    box-shadow: 0 0 30px #00ffff;
+  }
+
+  .team {
+    margin-top: 20px;
+    font-size: 1.4em;
+  }
+
+  .team h2 {
+    margin-top: 25px;
+    text-shadow: 0 0 10px #00ffff;
+  }
+
+  .team p {
+    color: #ffffff;
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<header>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="logo.png" alt="Logo">
+    </div>
+    <ul class="nav-links">
+      <li><a href="scripts.html">Sorteador de Times</a></li>
+      <li><a href="hall.html">Hall da Fama</a></li>
+      <li><a href="campeonato.html">Campeonato Virtude</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="container">
+  <h1>Sorteio de Times</h1>
+
+  <div>
+    <label for="teamSize">Tamanho do Time:</label>
+    <input type="number" id="teamSize" min="1" value="5">
+  </div>
+
+  <div>
+    <label for="ids">IDs Participantes (um por linha):</label><br>
+    <textarea id="ids" rows="8" cols="30" placeholder="Exemplo:
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10"></textarea>
+  </div>
+
+  <button onclick="sortTeams()">Sortear Times</button>
+
+  <div class="team" id="teamsDisplay"></div>
+</div>
+
+<script>
+  function sortTeams() {
+    const ids = document.getElementById("ids").value.trim().split(/\n+/);
+    if (ids.length < 2) {
+      alert("Insira pelo menos 2 IDs para formar dois times.");
+      return;
+    }
+
+    // Embaralhar IDs
+    const shuffled = ids.sort(() => Math.random() - 0.5);
+
+    // Divisão dos times
+    const half = Math.floor(shuffled.length / 2);
+    const remainder = shuffled.length % 2;
+    const teamBlack = shuffled.slice(0, half + remainder);
+    const teamWhite = shuffled.slice(half + remainder);
+
+    // Mostrar resultado
+    document.getElementById("teamsDisplay").innerHTML = `
+      <h2>🏴 Time Black:</h2>
+      <p>${teamBlack.join(',')}</p>
+      <h2>⚪ Time White:</h2>
+      <p>${teamWhite.join(',')}</p>
+    `;
+  }
+</script>
+</body>
+</html>
